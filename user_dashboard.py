@@ -5,7 +5,16 @@ import pandas as pd
 import time
 
 # ✅ AWS Configuration
-S3_BUCKET = "mlops-portfolio-bucket"
+
+# ✅ AWS Configuration
+ssm = boto3.client("ssm", region_name="us-east-1")
+s3_client = boto3.client("s3")
+
+
+# ✅ AWS Configuration
+S3_BUCKET = ssm.get_parameter(Name="mlopa-bucket", WithDecryption=True)["Parameter"]["Value"]
+S3_MODEL_ARTIFACTS = ssm.get_parameter(Name="model-artifacts", WithDecryption=True)["Parameter"]["Value"]
+# S3_BUCKET = "mlops-portfolio-bucket"
 STRATEGY_SIMULATION_PATH = "strategy_simulation/"
 INFERENCE_RESULTS_PATH = "inference_results/"
 TRADE_PERFORMANCE_PATH = "trade_performance/"
